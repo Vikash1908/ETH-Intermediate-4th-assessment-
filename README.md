@@ -27,101 +27,99 @@ To compile and deploy this contract, you will need:
    - Click on the "+" icon in the left-hand sidebar.
    - Save the file with a `.sol` extension (e.g., `DegenToken.sol`).
 
-3. **Write the code here:**
-   ### Solidity Code
+3. **Copy the Solidity Code:**
 
-```solidity
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.18;
+   ```solidity
+   // SPDX-License-Identifier: MIT
+   pragma solidity ^0.8.18;
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "hardhat/console.sol";
+   import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+   import "@openzeppelin/contracts/access/Ownable.sol";
+   import "hardhat/console.sol";
 
-contract DegenToken is ERC20, Ownable {
-    struct Item {
-        string name;
-        uint256 price;
-    }
+   contract DegenToken is ERC20, Ownable {
+       struct Item {
+           string name;
+           uint256 price;
+       }
 
-    Item[] private storeItemsArray;
-    mapping(string => uint256) private itemPrices;
+       Item[] private storeItemsArray;
+       mapping(string => uint256) private itemPrices;
 
-    constructor() ERC20("Degen", "DGN") {
-        console.log("Deploying DegenToken contract");
-        
-        // Add items one by one and check logs
-        _addStoreItem("Sword", 10);
-        console.log("Sword added");
-        
-        _addStoreItem("Shield", 15);
-        console.log("Shield added");
-        
-        _addStoreItem("Potion", 5);
-        console.log("Potion added");
-        
-        console.log("DegenToken contract deployed successfully");
-    }
+       constructor() ERC20("Degen", "DGN") {
+           console.log("Deploying DegenToken contract");
+           
+           // Add items one by one and check logs
+           _addStoreItem("Sword", 10);
+           console.log("Sword added");
+           
+           _addStoreItem("Shield", 15);
+           console.log("Shield added");
+           
+           _addStoreItem("Potion", 5);
+           console.log("Potion added");
+           
+           console.log("DegenToken contract deployed successfully");
+       }
 
-    function mint(address to, uint256 amount) public onlyOwner {
-        _mint(to, amount);
-    }
+       function mint(address to, uint256 amount) public onlyOwner {
+           _mint(to, amount);
+       }
 
-    function decimals() public pure override returns (uint8) {
-        return 0;
-    }
+       function decimals() public pure override returns (uint8) {
+           return 0;
+       }
 
-    function getBalance() external view returns (uint256) {
-        return this.balanceOf(msg.sender);
-    }
+       function getBalance() external view returns (uint256) {
+           return this.balanceOf(msg.sender);
+       }
 
-    function transferTokens(address _receiver, uint256 _value) external {
-        require(balanceOf(msg.sender) >= _value, "You do not have enough Degen Tokens");
-        transfer(_receiver, _value);
-    }
+       function transferTokens(address _receiver, uint256 _value) external {
+           require(balanceOf(msg.sender) >= _value, "You do not have enough Degen Tokens");
+           transfer(_receiver, _value);
+       }
 
-    function burnTokens(uint256 _value) external {
-        require(balanceOf(msg.sender) >= _value, "You do not have enough Degen Tokens");
-        _burn(msg.sender, _value);
-    }
+       function burnTokens(uint256 _value) external {
+           require(balanceOf(msg.sender) >= _value, "You do not have enough Degen Tokens");
+           _burn(msg.sender, _value);
+       }
 
-    // Internal function to add items to the store
-    function _addStoreItem(string memory itemName, uint256 itemPrice) internal {
-        console.log("Adding store item:", itemName, itemPrice);
-        storeItemsArray.push(Item(itemName, itemPrice));
-        itemPrices[itemName] = itemPrice;
-        console.log("Store item added:", itemName, itemPrice);
-    }
+       // Internal function to add items to the store
+       function _addStoreItem(string memory itemName, uint256 itemPrice) internal {
+           console.log("Adding store item:", itemName, itemPrice);
+           storeItemsArray.push(Item(itemName, itemPrice));
+           itemPrices[itemName] = itemPrice;
+           console.log("Store item added:", itemName, itemPrice);
+       }
 
-    // Function to show available items in the store
-    function showStoreItems() external view returns (Item[] memory) {
-        return storeItemsArray;
-    }
+       // Function to show available items in the store
+       function showStoreItems() external view returns (Item[] memory) {
+           return storeItemsArray;
+       }
 
-    // Function to redeem items by paying with tokens
-    function redeemItem(string memory itemName) external {
-        uint256 itemPrice = itemPrices[itemName];
-        require(itemPrice > 0, "Item not found");
-        require(balanceOf(msg.sender) >= itemPrice, "You do not have enough Degen Tokens to redeem this item");
-        
-        _burn(msg.sender, itemPrice);
-    }
-}
+       // Function to redeem items by paying with tokens
+       function redeemItem(string memory itemName) external {
+           uint256 itemPrice = itemPrices[itemName];
+           require(itemPrice > 0, "Item not found");
+           require(balanceOf(msg.sender) >= itemPrice, "You do not have enough Degen Tokens to redeem this item");
+           
+           _burn(msg.sender, itemPrice);
+       }
+   }
 
-4. **Compile the Contract:**
-   - Click on the "Solidity Compiler" tab in the left-hand sidebar.
-   - Ensure the "Compiler" option is set to "0.8.18" (or another compatible version).
-   - Click on the "Compile DegenToken.sol" button.
+## Deployment
 
-### Deployment
+### Deploy the Contract
 
-1. **Deploy the Contract:**
-   - Before deploying make sure that your account is connected to the Metamask wallet.
+1. **Connect to Metamask:**
+   - Ensure that your account is connected to the Metamask wallet.
+
+2. **Deploy the Contract:**
    - Click on the "Deploy & Run Transactions" tab in the left-hand sidebar.
    - Select the "DegenToken" contract from the dropdown menu.
    - Click on the "Deploy" button.
 
-### Interacting with the Contract
+## Interacting with the Contract
 
 Once deployed, interact with the contract using the following functions:
 
@@ -134,7 +132,7 @@ Once deployed, interact with the contract using the following functions:
 
 ## Authors
 
-- **Vikash Kumar Singh** 
+- **Vikash Kumar Singh**
 
 ## License
 
