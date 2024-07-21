@@ -13,20 +13,20 @@ contract DegenToken is ERC20, Ownable {
 
     Item[] private storeItemsArray;
     mapping(string => uint256) private itemPrices;
-    mapping(address => Item[]) private redeemedItems;
+    mapping(address => Item[]) private playerInventories;
 
     constructor() ERC20("Degen", "DGN") {
         console.log("Deploying DegenToken contract");
-        
+
         _addStoreItem("Sword", 10);
         console.log("Sword added");
-        
+
         _addStoreItem("Shield", 15);
         console.log("Shield added");
-        
+
         _addStoreItem("Potion", 5);
         console.log("Potion added");
-        
+
         console.log("DegenToken contract deployed successfully");
     }
 
@@ -70,11 +70,11 @@ contract DegenToken is ERC20, Ownable {
 
         _burn(msg.sender, itemPrice);
 
- 
-        redeemedItems[msg.sender].push(Item(itemName, itemPrice));
+        Item memory redeemedItem = Item(itemName, itemPrice);
+        playerInventories[msg.sender].push(redeemedItem);
     }
 
-    function getRedeemedItems() external view returns (Item[] memory) {
-        return redeemedItems[msg.sender];
+    function getPlayerInventory() external view returns (Item[] memory) {
+        return playerInventories[msg.sender];
     }
 }
